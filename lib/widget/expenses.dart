@@ -53,9 +53,33 @@ class _ExpensesState extends State<Expenses> {
 
   //remove expense from the list internally
   void _removeExpense(Expense expense) {
-    setState(() {
-      _registeredExpense.remove(expense);
-    });
+    final expenseIndex = _registeredExpense
+        .indexOf(expense); //where index of each expense is got
+    setState(
+      () {
+        _registeredExpense.remove(
+            expense); // this removes each expense when swiped left or right
+      },
+    );
+    ScaffoldMessenger.of(context)
+        .clearSnackBars(); // clears the snackBar after 4 secons
+    //utility object that shows a message when expense is deleted
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 4), //duration of the message
+        content: const Text('Expense deleted'), //shown message
+        action: SnackBarAction(
+          label: 'Undo', // the message to undo the action of deletion
+          onPressed: () {
+            //this helps to bring back the expense when undo button is pressed
+            setState(() {
+              _registeredExpense.insert(expenseIndex,
+                  expense); //it must be inside the set stat method.
+            });
+          },
+        ),
+      ),
+    );
   }
 
   @override
@@ -86,7 +110,8 @@ class _ExpensesState extends State<Expenses> {
           // rendering the ListView widget in the expense_list file
           // by calling the ExpenseList widget and its expenses super key below
           Expanded(
-            child: mainContent,
+            child:
+                mainContent, //the remove widget or function is called by this variable.
           ),
         ],
       ),
