@@ -60,6 +60,15 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(context) {
+    Widget mainContent = const Center(
+      child: Text('No Expenses found. Start adding some!'),
+    );
+    if (_registeredExpense.isNotEmpty) {
+      mainContent = ExpenseList(
+        expenses: _registeredExpense, //calling the registered expense here
+        onRemoveExpense: _removeExpense, //calling the remove pointer here
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Expense tracker'),
@@ -77,11 +86,7 @@ class _ExpensesState extends State<Expenses> {
           // rendering the ListView widget in the expense_list file
           // by calling the ExpenseList widget and its expenses super key below
           Expanded(
-            child: ExpenseList(
-              expenses:
-                  _registeredExpense, //calling the registered expense here
-              onRemoveExpense: _removeExpense, //calling the remove pointer here
-            ),
+            child: mainContent,
           ),
         ],
       ),
