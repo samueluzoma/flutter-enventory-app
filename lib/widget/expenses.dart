@@ -1,3 +1,4 @@
+import 'package:expense_tracker/widget/chart/chart.dart';
 import 'package:expense_tracker/widget/new_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/widget/expenses_list/expense_list.dart';
@@ -106,7 +107,9 @@ class _ExpensesState extends State<Expenses> {
       ),
       body: Column(
         children: [
-          const Text('The Chart'),
+          //Using the chart dart here
+          Chart(expenses: _registeredExpense),
+          // const Text('The Chart'),
           // rendering the ListView widget in the expense_list file
           // by calling the ExpenseList widget and its expenses super key below
           Expanded(
