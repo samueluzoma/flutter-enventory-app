@@ -42,3 +42,19 @@ class Expense {
     return formatter.format(date);
   }
 }
+
+//declaring a class to get the total expenses
+class ExpenseBucket {
+  ExpenseBucket({required this.category, required this.expenses});
+  final Category category;
+  final List<Expense> expenses;
+
+  double get totalExpense {
+    double sum = 0;
+    // another type of for loop... provided by dart.
+    for (final expense in expenses) {
+      sum += expense.amount;
+    }
+    return sum;
+  }
+}
