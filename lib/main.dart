@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//import 'package:flutter/services.dart';
 import 'package:expense_tracker/widget/expenses.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
@@ -12,6 +12,13 @@ var kDarkScheme = ColorScheme.fromSeed(
 );
 
 void main() {
+  //this is used to lock the device
+  // into one orientation
+
+  // WidgetsFlutterBinding.ensureInitialized(); //this ensures things works well
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  // ]).then((fn) {
   runApp(
     MaterialApp(
       //dark mode color scheme
@@ -70,4 +77,5 @@ void main() {
       home: const Expenses(), // returning the scaffold in the expenses widget.
     ),
   );
+  //});
 }

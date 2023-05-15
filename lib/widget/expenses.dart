@@ -85,6 +85,9 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(context) {
+    //knowing how much width and height is available is very key before changing the orientation
+    final width = MediaQuery.of(context).size.width;
+
     Widget mainContent = const Center(
       child: Text('No Expenses found. Start adding some!'),
     );
@@ -105,19 +108,37 @@ class _ExpensesState extends State<Expenses> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          //Using the chart dart here
-          Chart(expenses: _registeredExpense),
-          // const Text('The Chart'),
-          // rendering the ListView widget in the expense_list file
-          // by calling the ExpenseList widget and its expenses super key below
-          Expanded(
-            child:
-                mainContent, //the remove widget or function is called by this variable.
-          ),
-        ],
-      ),
+      //here tenary operator is used to switch orientation
+      body: width < 600
+          ? Column(
+              children: [
+                //Using the chart dart here
+                Chart(expenses: _registeredExpense),
+                // const Text('The Chart'),
+                // rendering the ListView widget in the expense_list file
+                // by calling the ExpenseList widget and its expenses super key below
+                Expanded(
+                  child:
+                      mainContent, //the remove widget or function is called by this variable.
+                ),
+              ],
+            )
+          //Else it will display the both in Rows and not column
+          : Row(
+              children: [
+                //Using the chart dart here
+                Expanded(
+                  child: Chart(expenses: _registeredExpense),
+                ),
+                // const Text('The Chart'),
+                // rendering the ListView widget in the expense_list file
+                // by calling the ExpenseList widget and its expenses super key below
+                Expanded(
+                  child:
+                      mainContent, //the remove widget or function is called by this variable.
+                ),
+              ],
+            ),
     );
   }
 }
