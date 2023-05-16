@@ -34,6 +34,9 @@ class _ExpensesState extends State<Expenses> {
   // the moment the add button is pressed
   void _openAddExpenseOverLay() {
     showModalBottomSheet(
+      //this helps to make use of space that
+      //will not obstruct the phones camera and other features hence (useSafeArea)
+      useSafeArea: true,
       isScrollControlled: true,
       context: context,
       builder: (ctx) {
