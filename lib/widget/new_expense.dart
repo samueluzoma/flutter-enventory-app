@@ -99,135 +99,145 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-          16, 48, 16, 16), //adding space around the padding widget.
-      child: Column(
-        children: <Widget>[
-          TextField(
-            //outputting the manually entered text by the user.
-            //onChanged: _savedTitleInput,
+    //taking care of the keyboard when in
+    //landscape mode and calling using it in the padding bottom.
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    return SizedBox(
+      height:
+          double.infinity, // this makes for taking the entire available space
+      child: SingleChildScrollView(
+        //this makes it scrollable
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(16, 48, 16,
+              keyboardSpace + 16), //adding space around the padding widget.
+          child: Column(
+            children: <Widget>[
+              TextField(
+                //outputting the manually entered text by the user.
+                //onChanged: _savedTitleInput,
 
-            // outputting the textController the flutter way.
-            controller: _titleController,
-            maxLength: 50,
-            decoration: const InputDecoration(
-              label: Text('Title'),
-            ),
-          ),
-
-          //Wrapp the amount and date into the same row
-
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  //outputting the manually entered text by the user.
-                  //onChanged: _savedTitleInput,
-
-                  // outputting the textController the flutter way.
-                  controller: _amountController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    prefixText: '\$ ',
-                    label: Text('amount'),
-                  ),
+                // outputting the textController the flutter way.
+                controller: _titleController,
+                maxLength: 50,
+                decoration: const InputDecoration(
+                  label: Text('Title'),
                 ),
               ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment
-                      .end, //this pushes the children of this row to the end
-                  crossAxisAlignment: CrossAxisAlignment
-                      .center, //this centers the children of this row vertically within the available space remaining
-                  children: [
-                    // Calling the _selectedDate in the Text widget below with a tenary operetor
-                    Text(
-                      _selectedDate == null
-                          ? 'No date selected'
-                          : formatter.format(
-                              _selectedDate!), //this line format the selected date.
-                    ),
-                    IconButton(
-                      onPressed: _presentDatePicker,
-                      icon: const Icon(
-                        Icons.calendar_month,
+
+              //Wrapp the amount and date into the same row
+
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      //outputting the manually entered text by the user.
+                      //onChanged: _savedTitleInput,
+
+                      // outputting the textController the flutter way.
+                      controller: _amountController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        prefixText: '\$ ',
+                        label: Text('amount'),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          // given height to the ROW widget down.
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            children: [
-              //Adding a drop down menu for the category part.
-              DropdownButton(
-                  style: const TextStyle(
-                    //adding style to the drop down manu
-                    //backgroundColor: Color.fromARGB(255, 47, 37, 37),
-                    //fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
                   ),
-                  value:
-                      _selectedCategory, // initialzin the declared variable up
-                  items: Category.values
-                      .map(
-                        (category) => DropdownMenuItem(
-                          value: category,
-                          child: Text(
-                            category.name.toUpperCase(),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment
+                          .end, //this pushes the children of this row to the end
+                      crossAxisAlignment: CrossAxisAlignment
+                          .center, //this centers the children of this row vertically within the available space remaining
+                      children: [
+                        // Calling the _selectedDate in the Text widget below with a tenary operetor
+                        Text(
+                          _selectedDate == null
+                              ? 'No date selected'
+                              : formatter.format(
+                                  _selectedDate!), //this line format the selected date.
+                        ),
+                        IconButton(
+                          onPressed: _presentDatePicker,
+                          icon: const Icon(
+                            Icons.calendar_month,
                           ),
                         ),
-                      )
-                      .toList(),
-                  onChanged: (value) {
-                    if (value == null) {
-                      return;
-                    }
-                    setState(() {
-                      _selectedCategory = value;
-                    });
-                    ;
-                  }),
-              const Spacer(),
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                ),
-                onPressed: () {
-                  //using the pop navigation method
-                  //provided by flutter to cancel the overlay modal
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancel'),
+                      ],
+                    ),
+                  ),
+                ],
               ),
+              // given height to the ROW widget down.
               const SizedBox(
-                width: 10,
+                height: 16,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  //1. print(_enteredText); //this goes with the manual method.
+              Row(
+                children: [
+                  //Adding a drop down menu for the category part.
+                  DropdownButton(
+                      style: const TextStyle(
+                        //adding style to the drop down manu
+                        //backgroundColor: Color.fromARGB(255, 47, 37, 37),
+                        //fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      value:
+                          _selectedCategory, // initialzin the declared variable up
+                      items: Category.values
+                          .map(
+                            (category) => DropdownMenuItem(
+                              value: category,
+                              child: Text(
+                                category.name.toUpperCase(),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        if (value == null) {
+                          return;
+                        }
+                        setState(() {
+                          _selectedCategory = value;
+                        });
+                        ;
+                      }),
+                  const Spacer(),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                    ),
+                    onPressed: () {
+                      //using the pop navigation method
+                      //provided by flutter to cancel the overlay modal
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      //1. print(_enteredText); //this goes with the manual method.
 
-                  // Doing it with controller the flutter war below
-                  // print(_titleController);
-                  // print(_amountController);
-                  _submitExpenseData(); // calling the function if all things is selected properly.
-                },
-                child: const Text('Save Expenses'),
+                      // Doing it with controller the flutter war below
+                      // print(_titleController);
+                      // print(_amountController);
+                      _submitExpenseData(); // calling the function if all things is selected properly.
+                    },
+                    child: const Text('Save Expenses'),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
